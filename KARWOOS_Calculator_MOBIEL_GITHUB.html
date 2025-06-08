@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Karwoos Calculator B – Offerte PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body { max-width: 600px; margin:auto; font-family: Arial; margin: 20px; background: #f8f8f8; color: #003355; }
+    input { margin: 5px; padding: 5px; }
+    button { margin: 10px 5px; padding: 8px 14px; background: #e67300; color: white; border: none; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <img src="karwoos_logo_watermerk_midden.png" alt="Karwoos Electroos logo" width="200" style="display:block;margin:20px auto;">
+  <h2 style="color:#e67300;">Offertegenerator – Karwoos Electroos</h2>
+
+  <label>Klantnaam: <input type="text" id="klantnaam" value="Jan Jansen" /></label><br>
+  <label>Offertenummer: <input type="text" id="offertenummer" value="2025-001" /></label><br>
+  <label>Korting (%): <input type="number" id="korting" value="0" /></label><br>
+  <label>BTW (%): <input type="number" id="btw" value="10" /></label><br><br>
+
+  <p><strong>Totaal SRD:</strong> <span id="srdTotaal">0</span></p>
+  <p><strong>Totaal USD:</strong> <span id="usdTotaal">0</span></p>
+
+  <button onclick="genereerOffertePDF()">📄 Genereer PDF met bijlage</button>
+
+  <script>
+    function genereerOffertePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const klant = document.getElementById('klantnaam').value;
+      const nummer = document.getElementById('offertenummer').value;
+      const korting = document.getElementById('korting').value;
+      const btw = document.getElementById('btw').value;
+      const srd = document.getElementById('srdTotaal').textContent;
+      const usd = document.getElementById('usdTotaal').textContent;
+
+      doc.setFontSize(16);
+      doc.setTextColor(230, 115, 0);
+      doc.text("Karwoos Electroos", 10, 15);
+      doc.setFontSize(11);
+      doc.setTextColor(0);
+      doc.text("Spanning in vakmanschap ⚡", 10, 22);
+
+      doc.setFontSize(11);
+      doc.text(`Offertenummer: ${nummer}`, 10, 35);
+      doc.text(`Klant: ${klant}`, 10, 42);
+      doc.text(`Korting: ${korting}%`, 10, 49);
+      doc.text(`BTW: ${btw}%`, 10, 56);
+      doc.text(`Totaalbedrag (incl.): SRD ${srd} | USD ${usd}`, 10, 66);
+
+      doc.setFontSize(9);
+      doc.setTextColor(100);
+      doc.text("Deze offerte is onder voorbehoud van typefouten en wijzigingen.", 10, 275);
+      doc.text("Contact: karwoos@electroos.com | +597 123456 | www.karwoos.com", 10, 282);
+
+      doc.save("Offerte_Karwoos.pdf");
+    }
+  </script>
+</body>
+</html>
